@@ -1,0 +1,7 @@
+#webcamView {
+    -fx-border-color: black;      
+    -fx-border-width: 5px;        
+    -fx-border-radius: 5px;        
+    -fx-padding: 5px;             
+    -fx-background-color: white;  
+}

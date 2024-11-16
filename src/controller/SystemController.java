@@ -1,67 +1,76 @@
-import javafx.application.Application;
+package controller;
+
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
+import org.opencv.videoio.Videoio;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
-public class SurveillanceSystem extends Application {
+public class SystemController {
     static { System.loadLibrary(Core.NATIVE_LIBRARY_NAME); }
 
     private VideoCapture capture;
     private WritableImage fxImage;
-    private ImageView imageView;
+    private boolean stopCamera = false;
 
-    @Override
-    public void start(Stage primaryStage) {
-        capture = new VideoCapture(0);
+    @FXML
+    private ImageView webcamView;
+
+    @FXML
+    public void initialize() {
+        webcamView.setPreserveRatio(true);
+
+        capture = new VideoCapture(0, Videoio.CAP_DSHOW);
+
         if (!capture.isOpened()) {
             System.out.println("Error: Could not open the webcam.");
             return;
         }
 
-        imageView = new ImageView();
-        fxImage = new WritableImage(640, 480);
-        imageView.setImage(fxImage);
+        capture.set(Videoio.CAP_PROP_FRAME_WIDTH, 720);
+        capture.set(Videoio.CAP_PROP_FRAME_HEIGHT, 540);
 
-        StackPane root = new StackPane();
-        root.getChildren().add(imageView);
-
-        Scene scene = new Scene(root, 640, 480);
-        primaryStage.setTitle("JavaFX Webcam Viewer");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        fxImage = new WritableImage(720, 540);
+        webcamView.setImage(fxImage);
 
         new Thread(this::updateFrame).start();
     }
 
-    private void updateFrame() {
+    public void updateFrame() {
         Mat frame = new Mat();
 
-        while (capture.isOpened()) {
+        while (!stopCamera && capture.isOpened()) {
             if (capture.read(frame)) {
                 BufferedImage image = matToBufferedImage(frame);
                 if (image != null) {
-                    fxImage = SwingFXUtils.toFXImage(image, fxImage);
-                    imageView.setImage(fxImage);
+                    WritableImage finalFxImage = SwingFXUtils.toFXImage(image, null);
+                    Platform.runLater(() -> {
+                        if (!stopCamera) {
+                            webcamView.setImage(finalFxImage);
+                        }
+                    });
                 }
+            } else {
+                System.out.println("Frame not read from capture.");
             }
 
             try {
-                Thread.sleep(30); // ~ 33 FPS
+                Thread.sleep(16);  // ~60 FPS
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        capture.release();
+        if (capture != null && capture.isOpened()) {
+            capture.release();
+        }
     }
 
     private BufferedImage matToBufferedImage(Mat mat) {
@@ -81,15 +90,12 @@ public class SurveillanceSystem extends Application {
         return image;
     }
 
-    @Override
-    public void stop() throws Exception {
-        super.stop();
+    public void stopCamera() {
+        stopCamera = true;
+        System.out.println("Stopping camera capture.");
         if (capture != null && capture.isOpened()) {
             capture.release();
+            System.out.println("Camera capture released.");
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
