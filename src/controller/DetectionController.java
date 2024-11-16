@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
+import motion_detector.Detector;
 
 import java.awt.image.BufferedImage;
 
@@ -23,10 +24,12 @@ public class DetectionController {
     private ImageView detectionWebcamView;
 
     private boolean stopCamera = false;
+    private Detector motionDetector;
 
     @FXML
     public void initialize() {
         sharedData = SharedData.getInstance();
+        motionDetector = new Detector();
 
         if (detectionWebcamView == null) {
             System.out.println("Error: detectionWebcamView is null. Check FXML fx:id.");
@@ -51,12 +54,20 @@ public class DetectionController {
             if (capture.read(frame)) {
                 BufferedImage image = sharedData.matToBufferedImage(frame);
                 if (image != null) {
+                    boolean motionDetected = motionDetector.detectMotion(frame);
+
+                    if (motionDetected) {
+                        System.out.println("Motion detected!");
+                    }
+
                     Platform.runLater(() -> {
                         if (!stopCamera) {
                             detectionWebcamView.setImage(SwingFXUtils.toFXImage(image, null));
                         }
                     });
                 }
+            } else {
+                System.out.println("Frame not read from capture.");
             }
 
             try {
@@ -65,10 +76,14 @@ public class DetectionController {
                 e.printStackTrace();
             }
         }
+
     }
 
     public void stopCamera() {
         stopCamera = true;
+        if (motionDetector != null) {
+            motionDetector.reset();
+        }
     }
 
     public void navigateToPreview(ActionEvent event) {
