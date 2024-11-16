@@ -1,6 +1,6 @@
 package ui;
 
-import controller.SystemController;
+import controller.PreviewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +14,7 @@ public class DetectionFrame extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/Detection.fxml"));
 
             Parent root = loader.load();
-            SystemController controller = loader.getController();
+            PreviewController controller = loader.getController();
 
             Scene scene = new Scene(root);
 
@@ -26,7 +26,6 @@ public class DetectionFrame extends Application {
                 if (controller != null) {
                     controller.stopCamera();
                 }
-                new PreviewFrame(); //trying to navigate to preview frame
 
             });
         } catch (Exception e) {

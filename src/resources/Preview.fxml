@@ -9,24 +9,43 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SystemController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PreviewController">
    <children>
-      <StackPane layoutX="23.0" layoutY="84.0" prefHeight="482.0" prefWidth="640.0" style="-fx-background-color: black;" />
-      <ImageView id="webcamView" fx:id="webcamView" fitHeight="470.0" fitWidth="629.0" layoutX="29.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" />
-      <Button id="startButton" alignment="CENTER" layoutX="731.0" layoutY="500.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="126.0" text="Start">
+      <Button id="startButton" alignment="CENTER" layoutX="729.0" layoutY="516.0" mnemonicParsing="false" onAction="#navigateToDetection" prefHeight="43.0" prefWidth="126.0" style="-fx-background-radius: 20;" text="Start">
          <font>
-            <Font name="Calibri" size="16.0" />
+            <Font name="Consolas" size="16.0" />
          </font>
       </Button>
-      <CheckBox id="checkedDB" layoutX="730.0" layoutY="347.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="126.0" text="Save to Database" />
-      <Text layoutX="272.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Preview" wrappingWidth="126.40000000000009">
+      <StackPane layoutX="23.0" layoutY="84.0" prefHeight="482.0" prefWidth="640.0" style="-fx-background-color: black;" />
+      <ImageView id="webcamView" fx:id="webcamView" fitHeight="471.0" fitWidth="630.0" layoutX="28.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true" />
+      <Text layoutX="166.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Web Camera Preview" wrappingWidth="354.3999877929689">
          <font>
-            <Font name="Calibri" size="35.0" />
+            <Font name="Consolas" size="35.0" />
          </font>
       </Text>
-      <CheckBox id="checkedEmail" layoutX="731.0" layoutY="392.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="126.0" text="Send alert via mail" />
-      <Text layoutX="779.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="email" />
-      <CheckBox id="checkedSnapshot" layoutX="730.0" layoutY="308.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="126.0" text="Capture snapshot" />
-      <TextField id="textFieldEmail" layoutX="718.0" layoutY="461.0" />
+      <Text layoutX="761.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="your email">
+         <font>
+            <Font name="Consolas" size="12.0" />
+         </font></Text>
+      <CheckBox id="checkedSnapshot" layoutX="725.0" layoutY="308.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Capture snapshot">
+         <font>
+            <Font name="Consolas" size="12.0" />
+         </font></CheckBox>
+      <TextField id="textFieldEmail" layoutX="717.0" layoutY="475.0" />
+      <Text layoutX="731.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration:" wrappingWidth="126.40000000000009">
+         <font>
+            <Font name="Consolas" size="16.0" />
+         </font>
+      </Text>
+      <CheckBox id="checkedDB" layoutX="725.0" layoutY="355.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Save to Database">
+         <font>
+            <Font name="Consolas" size="12.0" />
+         </font>
+      </CheckBox>
+      <CheckBox id="checkedEmail" layoutX="725.0" layoutY="404.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Send alert (mail)">
+         <font>
+            <Font name="Consolas" size="12.0" />
+         </font>
+      </CheckBox>
    </children>
 </AnchorPane>

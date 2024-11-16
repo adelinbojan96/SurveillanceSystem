@@ -1,7 +1,8 @@
 package ui;
 
-import controller.SystemController;
+import controller.PreviewController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ public class PreviewFrame extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/Preview.fxml"));
 
             Parent root = loader.load();
-            SystemController controller = loader.getController();
+            PreviewController controller = loader.getController();
 
             Scene scene = new Scene(root);
 
@@ -34,9 +35,16 @@ public class PreviewFrame extends Application {
                     controller.stopCamera();
                 }
                 System.out.println("Application is closing.");
+
+                Platform.exit();
+                System.exit(0);
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
