@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
@@ -16,7 +17,9 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
+import javafx.scene.control.TextField;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class PreviewController {
@@ -27,6 +30,14 @@ public class PreviewController {
 
     @FXML
     private ImageView webcamView;
+    @FXML
+    private CheckBox checkedDB;
+    @FXML
+    private CheckBox checkedEmail;
+    @FXML
+    private CheckBox checkedSnapshot;
+    @FXML
+    private TextField textFieldEmail;
 
     public void initialize() {
         sharedData = SharedData.getInstance();
@@ -46,7 +57,6 @@ public class PreviewController {
         VideoCapture finalCapture = capture;
         new Thread(() -> updateFrame(finalCapture)).start();
     }
-
 
     public void updateFrame(VideoCapture capture) {
         Mat frame = new Mat();
@@ -82,6 +92,21 @@ public class PreviewController {
     public void navigateToDetection(ActionEvent event) {
         try {
             stopCamera();
+
+            sharedData.setDbChecked(checkedDB.isSelected());
+            sharedData.setEmailChecked(checkedEmail.isSelected() && (!textFieldEmail.getText().isEmpty()));
+            sharedData.setSnapshotChecked(checkedSnapshot.isSelected());
+
+            if (textFieldEmail != null) {
+                String emailInput = textFieldEmail.getText();
+
+                if (emailInput != null && !emailInput.trim().isEmpty()) {
+                    sharedData.setEmailAddress(emailInput.trim());
+                } else {
+                    System.err.println("Email address is empty/invalid.");
+                    return;
+                }
+            }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Detection.fxml"));
             Parent detectionRoot = loader.load();

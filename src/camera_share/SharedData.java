@@ -14,7 +14,12 @@ public class SharedData {
     private WritableImage fxImage;
     private VideoCapture videoCapture;
 
-    private SharedData() {}
+    private boolean snapshotChecked = false;
+    private boolean emailChecked = false;
+    private boolean dbChecked = false;
+    private String emailAddress;
+    private SharedData() {
+    }
 
     public static SharedData getInstance() {
         if (instance == null) {
@@ -30,7 +35,6 @@ public class SharedData {
     public void setFxImage(WritableImage fxImage) {
         this.fxImage = fxImage;
     }
-
     public VideoCapture getVideoCapture() {
         return videoCapture;
     }
@@ -53,5 +57,36 @@ public class SharedData {
         final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         System.arraycopy(buffer, 0, targetPixels, 0, buffer.length);
         return image;
+    }
+
+    public boolean isSnapshotChecked() {
+        return snapshotChecked;
+    }
+
+    public boolean isEmailChecked() {
+        return emailChecked;
+    }
+
+    public boolean isDbChecked() {
+        return dbChecked;
+    }
+    public void setEmailChecked(boolean emailChecked) {
+        this.emailChecked = emailChecked;
+    }
+
+    public void setDbChecked(boolean dbChecked) {
+        this.dbChecked = dbChecked;
+    }
+
+    public void setSnapshotChecked(boolean snapshotChecked) {
+        this.snapshotChecked = snapshotChecked;
+    }
+    public void setEmailAddress(String text)
+    {
+        this.emailAddress = text;
+    }
+    public String getEmailAddress()
+    {
+        return this.emailAddress;
     }
 }

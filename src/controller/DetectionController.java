@@ -1,9 +1,9 @@
 package controller;
-
+import alert.Timer;
+import alert.AlertManager;
 import camera_share.SharedData;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -25,14 +25,18 @@ public class DetectionController {
 
     private boolean stopCamera = false;
     private Detector motionDetector;
+    private AlertManager alertManager;
+    private Timer actionTimer;
 
     @FXML
     public void initialize() {
         sharedData = SharedData.getInstance();
         motionDetector = new Detector();
+        alertManager = new AlertManager(sharedData.isEmailChecked(), sharedData.isSnapshotChecked(), sharedData.isDbChecked());
+        actionTimer = new Timer(10);
 
         if (detectionWebcamView == null) {
-            System.out.println("Error: detectionWebcamView is null. Check FXML fx:id.");
+            System.out.println("Error: detectionWebcamView is null.");
             return;
         }
 
@@ -57,7 +61,16 @@ public class DetectionController {
                     boolean motionDetected = motionDetector.detectMotion(frame);
 
                     if (motionDetected) {
-                        System.out.println("Motion detected!");
+                        if (actionTimer.hasIntervalPassed()) {
+                            System.out.println("Motion detected!");
+                            alertManager.saveSnapshot(image, true);
+                            //alertManager.saveDB();
+                            alertManager.sendMail(sharedData.getEmailAddress(),true);
+
+                            actionTimer.reset();
+                        } else {
+                            System.out.println("Motion detected, but waiting for timer.");
+                        }
                     }
 
                     Platform.runLater(() -> {
@@ -76,7 +89,6 @@ public class DetectionController {
                 e.printStackTrace();
             }
         }
-
     }
 
     public void stopCamera() {
@@ -86,26 +98,22 @@ public class DetectionController {
         }
     }
 
-    public void navigateToPreview(ActionEvent event) {
-        stopCamera();
+    public void setSharedData(SharedData sharedData) {
+        this.sharedData = sharedData;
+    }
 
+    public void navigateToPreview(javafx.event.ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Preview.fxml"));
-            Parent root = loader.load();
+            Parent previewRoot = loader.load();
 
-            PreviewController previewController = loader.getController();
-            previewController.setSharedData(sharedData);
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene previewScene = new Scene(root);
+            Scene previewScene = new Scene(previewRoot);
             currentStage.setScene(previewScene);
             currentStage.setTitle("Preview Frame");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void setSharedData(SharedData sharedData) {
-        this.sharedData = sharedData;
     }
 }

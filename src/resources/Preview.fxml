@@ -27,22 +27,22 @@
          <font>
             <Font name="Consolas" size="12.0" />
          </font></Text>
-      <CheckBox id="checkedSnapshot" layoutX="725.0" layoutY="308.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Capture snapshot">
+      <CheckBox fx:id="checkedSnapshot" layoutX="725.0" layoutY="308.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Capture snapshot">
          <font>
             <Font name="Consolas" size="12.0" />
          </font></CheckBox>
-      <TextField id="textFieldEmail" layoutX="717.0" layoutY="475.0" />
+      <TextField fx:id="textFieldEmail" layoutX="717.0" layoutY="475.0" />
       <Text layoutX="731.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration:" wrappingWidth="126.40000000000009">
          <font>
             <Font name="Consolas" size="16.0" />
          </font>
       </Text>
-      <CheckBox id="checkedDB" layoutX="725.0" layoutY="355.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Save to Database">
+      <CheckBox fx:id="checkedDB" layoutX="725.0" layoutY="355.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Save to Database">
          <font>
             <Font name="Consolas" size="12.0" />
          </font>
       </CheckBox>
-      <CheckBox id="checkedEmail" layoutX="725.0" layoutY="404.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Send alert (mail)">
+      <CheckBox fx:id="checkedEmail" layoutX="725.0" layoutY="404.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Send alert (mail)">
          <font>
             <Font name="Consolas" size="12.0" />
          </font>
