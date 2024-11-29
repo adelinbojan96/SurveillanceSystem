@@ -6,7 +6,9 @@ import org.opencv.videoio.VideoCapture;
 import java.awt.image.BufferedImage;
 import org.opencv.core.Mat;
 
+import javax.imageio.ImageIO;
 import java.awt.image.DataBufferByte;
+import java.io.ByteArrayOutputStream;
 
 public class SharedData {
     private static SharedData instance;
@@ -18,7 +20,7 @@ public class SharedData {
     private boolean emailChecked = false;
     private boolean dbChecked = false;
     private String emailAddress;
-    private SharedData() {
+    public SharedData() {
     }
 
     public static SharedData getInstance() {
@@ -58,7 +60,15 @@ public class SharedData {
         System.arraycopy(buffer, 0, targetPixels, 0, buffer.length);
         return image;
     }
-
+    public byte[] bufferedImageToByteArray(BufferedImage image) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            ImageIO.write(image, "jpg", baos);
+            return baos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public boolean isSnapshotChecked() {
         return snapshotChecked;
     }

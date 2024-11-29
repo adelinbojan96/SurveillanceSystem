@@ -97,7 +97,7 @@ public class PreviewController {
             sharedData.setEmailChecked(checkedEmail.isSelected() && (!textFieldEmail.getText().isEmpty()));
             sharedData.setSnapshotChecked(checkedSnapshot.isSelected());
 
-            if (textFieldEmail != null) {
+            if (textFieldEmail != null && checkedEmail.isSelected()) {
                 String emailInput = textFieldEmail.getText();
 
                 if (emailInput != null && !emailInput.trim().isEmpty()) {

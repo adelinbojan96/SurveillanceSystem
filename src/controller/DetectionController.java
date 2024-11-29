@@ -15,6 +15,7 @@ import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import motion_detector.Detector;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class DetectionController {
@@ -62,9 +63,9 @@ public class DetectionController {
 
                     if (motionDetected) {
                         if (actionTimer.hasIntervalPassed()) {
-                            System.out.println("Motion detected!");
+                            JOptionPane.showConfirmDialog(null, "Motion detected");
                             alertManager.saveSnapshot(image, true);
-                            //alertManager.saveDB();
+                            alertManager.saveDB(image, true);
                             alertManager.sendMail(sharedData.getEmailAddress(),true);
 
                             actionTimer.reset();
@@ -104,6 +105,8 @@ public class DetectionController {
 
     public void navigateToPreview(javafx.event.ActionEvent actionEvent) {
         try {
+            stopCamera();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Preview.fxml"));
             Parent previewRoot = loader.load();
 

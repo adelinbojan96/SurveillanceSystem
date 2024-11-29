@@ -1,5 +1,7 @@
 package alert;
 
+import Database.DataBaseManager;
+import camera_share.SharedData;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
@@ -79,7 +81,19 @@ public class AlertManager {
             }
         }
     }
-
+    public void saveDB(BufferedImage image, boolean movementDetected)
+    {
+        if(dbChecked && movementDetected)
+        {
+            SharedData sharedData = new SharedData();
+            byte[] imageBytes = null;
+            if (image != null) {
+                imageBytes = sharedData.bufferedImageToByteArray(image);
+            }
+            DataBaseManager dbManager = new DataBaseManager();
+            dbManager.insertRecord(imageBytes);
+        }
+    }
     public void sendMail(String address, boolean movementDetected) {
         if(emailChecked && movementDetected) {
             Properties config = getConfig();
