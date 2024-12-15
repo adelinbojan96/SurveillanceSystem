@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PreviewController">
    <children>
-      <Button id="startButton" alignment="CENTER" layoutX="729.0" layoutY="516.0" mnemonicParsing="false" onAction="#navigateToDetection" prefHeight="43.0" prefWidth="126.0" style="-fx-background-radius: 20;" text="Start">
+      <Button id="startButton" alignment="CENTER" layoutX="730.0" layoutY="487.0" mnemonicParsing="false" onAction="#navigateToDetection" prefHeight="43.0" prefWidth="126.0" style="-fx-background-radius: 20;" text="Start">
          <font>
             <Font name="Consolas" size="16.0" />
          </font>
@@ -23,29 +23,34 @@
             <Font name="Consolas" size="35.0" />
          </font>
       </Text>
-      <Text layoutX="761.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="your email">
+      <Text layoutX="762.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="your email">
          <font>
             <Font name="Consolas" size="12.0" />
          </font></Text>
-      <CheckBox fx:id="checkedSnapshot" layoutX="725.0" layoutY="308.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Capture snapshot">
+      <CheckBox fx:id="checkedSnapshot" layoutX="726.0" layoutY="279.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Capture snapshot">
          <font>
             <Font name="Consolas" size="12.0" />
          </font></CheckBox>
-      <TextField fx:id="textFieldEmail" layoutX="717.0" layoutY="475.0" />
-      <Text layoutX="731.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration:" wrappingWidth="126.40000000000009">
+      <TextField fx:id="textFieldEmail" layoutX="718.0" layoutY="446.0" />
+      <Text layoutX="732.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration:" wrappingWidth="126.40000000000009">
          <font>
             <Font name="Consolas" size="16.0" />
          </font>
       </Text>
-      <CheckBox fx:id="checkedDB" layoutX="725.0" layoutY="355.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Save to Database">
+      <CheckBox fx:id="checkedDB" layoutX="726.0" layoutY="326.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Save to database">
          <font>
             <Font name="Consolas" size="12.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="checkedEmail" layoutX="725.0" layoutY="404.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Send alert (mail)">
+      <CheckBox fx:id="checkedEmail" layoutX="726.0" layoutY="375.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="136.0" text="Send alert (mail)">
          <font>
             <Font name="Consolas" size="12.0" />
          </font>
       </CheckBox>
+      <Text fx:id="textNavigateToDB" layoutX="735.0" layoutY="563.0" strokeType="OUTSIDE" strokeWidth="0.0" text="See the database" wrappingWidth="114.40000000000009">
+         <font>
+            <Font name="Consolas" size="13.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

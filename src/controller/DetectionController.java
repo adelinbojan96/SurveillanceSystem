@@ -1,4 +1,5 @@
 package controller;
+
 import alert.Timer;
 import alert.AlertManager;
 import camera_share.SharedData;
@@ -10,15 +11,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import motion_detector.Detector;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 
-public class DetectionController {
+public class DetectionController implements InteractionWithPreview {
     private SharedData sharedData;
 
     @FXML
@@ -29,12 +32,28 @@ public class DetectionController {
     private AlertManager alertManager;
     private Timer actionTimer;
 
+    private MediaPlayer mediaPlayer;
+
     @FXML
     public void initialize() {
         sharedData = SharedData.getInstance();
         motionDetector = new Detector();
         alertManager = new AlertManager(sharedData.isEmailChecked(), sharedData.isSnapshotChecked(), sharedData.isDbChecked());
         actionTimer = new Timer(10);
+
+        try {
+            URL soundURL = getClass().getResource("/resources/alert.mp3");
+            if (soundURL != null) {
+                Media sound = new Media(soundURL.toExternalForm());
+                mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.setVolume(0.5);
+
+            } else {
+                System.out.println("Error: Sound file not found.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (detectionWebcamView == null) {
             System.out.println("Error: detectionWebcamView is null.");
@@ -63,10 +82,14 @@ public class DetectionController {
 
                     if (motionDetected) {
                         if (actionTimer.hasIntervalPassed()) {
-                            JOptionPane.showConfirmDialog(null, "Motion detected");
+                            if (mediaPlayer != null) {
+                                mediaPlayer.stop();
+                                mediaPlayer.play();
+                            }
+
                             alertManager.saveSnapshot(image, true);
                             alertManager.saveDB(image, true);
-                            alertManager.sendMail(sharedData.getEmailAddress(),true);
+                            alertManager.sendMail(sharedData.getEmailAddress(), true);
 
                             actionTimer.reset();
                         } else {

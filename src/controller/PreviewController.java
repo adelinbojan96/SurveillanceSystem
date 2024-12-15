@@ -12,14 +12,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 import javafx.scene.control.TextField;
-
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class PreviewController {
@@ -28,6 +27,8 @@ public class PreviewController {
     private boolean stopCamera = false;
     private SharedData sharedData;
 
+    @FXML
+    private Text textNavigateToDB;
     @FXML
     private ImageView webcamView;
     @FXML
@@ -56,6 +57,8 @@ public class PreviewController {
 
         VideoCapture finalCapture = capture;
         new Thread(() -> updateFrame(finalCapture)).start();
+
+        textNavigateToDB.setOnMouseClicked(this::navigateToDatabase);
     }
 
     public void updateFrame(VideoCapture capture) {
@@ -76,7 +79,6 @@ public class PreviewController {
             } else {
                 System.out.println("Frame not read from capture.");
             }
-
             try {
                 Thread.sleep(16); // ~60 FPS
             } catch (InterruptedException e) {
@@ -87,6 +89,21 @@ public class PreviewController {
 
     public void stopCamera() {
         stopCamera = true;
+    }
+    public void navigateToDatabase(javafx.scene.input.MouseEvent event) {
+        try {
+            stopCamera();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/Database.fxml"));
+            Parent dbRoot = loader.load();
+
+            Stage currentStage = (Stage) textNavigateToDB.getScene().getWindow();
+            Scene dbScene = new Scene(dbRoot);
+            currentStage.setScene(dbScene);
+            currentStage.setTitle("Database Frame");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void navigateToDetection(ActionEvent event) {

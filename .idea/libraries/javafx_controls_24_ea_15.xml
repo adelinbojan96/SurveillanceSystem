@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="javafx-controls-24-ea+15">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/javafx-controls-24-ea+15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/javafx-media-24-ea+15.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

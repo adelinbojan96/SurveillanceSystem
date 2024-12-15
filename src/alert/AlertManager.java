@@ -1,6 +1,6 @@
 package alert;
 
-import Database.DataBaseManager;
+import database_connections.DataBaseManager;
 import camera_share.SharedData;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -18,9 +18,9 @@ import java.util.Properties;
 
 
 public class AlertManager {
-    private boolean emailChecked;
-    private boolean snapshotChecked;
-    private boolean dbChecked;
+    private final boolean emailChecked;
+    private final boolean snapshotChecked;
+    private final boolean dbChecked;
 
     public AlertManager(boolean emailChecked, boolean snapshotChecked, boolean dbChecked) {
         this.emailChecked = emailChecked;
@@ -50,6 +50,7 @@ public class AlertManager {
 
         return mailProps;
     }
+
     private void sendFinalEmail(Session session, String from, String address, String subject, String messageText) {
         try {
             MimeMessage message = new MimeMessage(session);
@@ -81,6 +82,7 @@ public class AlertManager {
             }
         }
     }
+
     public void saveDB(BufferedImage image, boolean movementDetected)
     {
         if(dbChecked && movementDetected)
@@ -94,6 +96,7 @@ public class AlertManager {
             dbManager.insertRecord(imageBytes);
         }
     }
+
     public void sendMail(String address, boolean movementDetected) {
         if(emailChecked && movementDetected) {
             Properties config = getConfig();
