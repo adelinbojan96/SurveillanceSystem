@@ -2,9 +2,7 @@
 WebCamera-Based Surverillance System
 
 # Description
-Java program meant for monitoring a moving object. 
-If an object moves with a certain speed, the algorithm 
-will alert the user using a sound and provide a certain message ("Movement detected!")
+A Java-driven surveillance application that leverages JavaFX for its user interface and OpenCV for real-time webcam input. The system continuously monitors objects in view and determines whether their speed exceeds a predefined threshold. When motion surpasses this limit, the system triggers an audible alert and displays a “Movement detected!” message. It can also dispatch automated email notifications through Jakarta Mail, ensuring that users remain informed even when physically absent.
 
 # Stack 
 - Java (backend)
