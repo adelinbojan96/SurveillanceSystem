@@ -10,7 +10,6 @@ public class Detector {
     public Detector() {
         previousFrame = null;
     }
-
     //detection of motion between current frame and previous.
     public boolean detectMotion(Mat currentFrame) {
         if (previousFrame == null) {
